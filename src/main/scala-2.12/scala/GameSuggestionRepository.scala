@@ -7,7 +7,7 @@ import reactor.core.publisher.{Flux, Mono}
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 
-class DummyPersonRepository() extends PersonRepository {
+class GameSuggestionRepository() extends PersonRepository {
 
   private val people: mutable.MutableList[Person] =
     mutable.MutableList(

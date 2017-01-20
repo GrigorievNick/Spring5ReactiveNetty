@@ -1,11 +1,9 @@
 package scala
 
 import org.springframework.http.client.reactive.ReactorClientHttpConnector
-import org.springframework.web.client.RestTemplate
 import org.springframework.web.reactive.function.BodyInserters
 import org.springframework.web.reactive.function.client.{ClientRequest, ClientResponse, WebClient}
-import reactor.core.publisher.Flux
-import reactor.core.publisher.Mono
+import reactor.core.publisher.{Flux, Mono}
 import reactor.test.StepVerifier
 
 object Client {
@@ -14,7 +12,6 @@ object Client {
     val client: Client = new Client
     client.printAllPeople()
     client.createPerson()
-    client.printAllPeople()
   }
 }
 
@@ -23,15 +20,15 @@ class Client {
 
   @throws[InterruptedException]
   def printAllPeople() {
-    val restTemplate: RestTemplate = new RestTemplate()
     val request: ClientRequest[Void] = ClientRequest.GET("http://{host}:{port}/person",
       Server.HOST.asInstanceOf[AnyRef],
       Server.PORT.asInstanceOf[AnyRef])
       .build
 
-    println(restTemplate.getForEntity(request.url().toASCIIString, classOf[String]))
     val peopleList: Flux[Person] = client.exchange(request)
       .flatMap(resp => resp.bodyToFlux(classOf[Person]))
+      .doOnError(ex => ex.printStackTrace())
+      .doOnNext(println)
 
     StepVerifier.create(peopleList)
       .expectNext(Person("John Doe", 42))

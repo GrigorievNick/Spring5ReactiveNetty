@@ -1,0 +1,9 @@
+# Created by .ignore support plugin (hsz.mobi)
+.gitignore
+.idea/
+project/project/
+project/target/
+src/main/java/
+src/main/scala/
+src/test/
+target/
