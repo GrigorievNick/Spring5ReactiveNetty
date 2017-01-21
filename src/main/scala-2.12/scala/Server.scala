@@ -15,7 +15,6 @@ object Server {
 
   @throws[Exception]
   def main(args: Array[String]) {
-    new Server().startReactorServer()
 
     println("Press ENTER to exit.")
     scala.io.StdIn.readLine
@@ -24,16 +23,4 @@ object Server {
 
 class Server {
 
-  private[scala] def routingFunction: RouterFunction[_] = {
-    val repository: PersonRepository = new GameSuggestionRepository
-    val handler: GameSugesstionHandler = new GameSugesstionHandler(repository)
-    RequestPredicates.GET().
-  }
-
-  @throws[InterruptedException]
-  private[scala] def startReactorServer() {
-    val adapter: ReactorHttpHandlerAdapter = new ReactorHttpHandlerAdapter(toHttpHandler(routingFunction))
-    val context: NettyContext = HttpServer.create(Server.HOST, Server.PORT).newHandler(adapter).block()
-    context.
-  }
 }
